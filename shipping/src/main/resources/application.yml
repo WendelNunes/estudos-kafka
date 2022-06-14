@@ -1,0 +1,27 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27018
+      database: shippingdb
+
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers:  localhost:29092
+          auto-create-topics: true
+
+      function:
+        definition: orderShippingRequestConsumer;orderShippingStatusProducer;orderCanceledConsumer
+
+      bindings:
+        orderShippingRequestConsumer-in-0:
+          destination: order-shipping-request
+        orderShippingStatusProducer-out-0:
+          destination: order-shipping-status
+        orderCanceledConsumer-in-0:
+          destination: order-canceled
+
+server:
+  port: 8081
